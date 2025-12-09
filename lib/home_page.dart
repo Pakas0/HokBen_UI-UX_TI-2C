@@ -1,15 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Define brand colors
-    const Color brandRed = Color(0xFFED1C24);
-    const Color brandGreen = Color(0xFF7CB342); // Approximate green
-    const Color chipColor = Color(0xFFFFE0B2); // Approximate beige
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  // Brand colors
+  final Color brandRed = const Color(0xFFED1C24);
+  final Color brandGreen = const Color(0xFF7CB342);
+  final Color chipColor = const Color(0xFFFFE0B2);
+
+  // Dropdown data
+  String? _selectedLocation;
+  final List<String> _locations = [
+    'Jakarta',
+    'Bandung',
+    'Surabaya',
+    'Semarang',
+    'Yogyakarta',
+    'Bali',
+    'Medan',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -37,7 +55,7 @@ class HomePage extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          // Logo Placeholder (Yellow Circle)
+                          // Logo Placeholder
                           Container(
                             height: 50,
                             width: 50,
@@ -59,28 +77,51 @@ class HomePage extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 10),
-                      // Location Dropdown Placeholder
+                      // Location Dropdown
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16,
-                          vertical: 8,
+                          vertical: 4,
                         ),
                         decoration: BoxDecoration(
                           color: Colors.grey[200],
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        child: Row(
-                          children: const [
-                            Text(
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: _selectedLocation,
+                            hint: const Text(
                               "Location",
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
+                                color: Colors.black87,
                               ),
                             ),
-                            Spacer(),
-                            Icon(Icons.keyboard_arrow_down),
-                          ],
+                            isExpanded: true,
+                            icon: _buildSvgIcon(
+                              'assets/icons/drop-down.svg',
+                              color: Colors.black,
+                              size: 24,
+                            ),
+                            items: _locations.map((String location) {
+                              return DropdownMenuItem<String>(
+                                value: location,
+                                child: Text(
+                                  location,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                _selectedLocation = newValue;
+                              });
+                            },
+                          ),
                         ),
                       ),
                     ],
@@ -154,77 +195,97 @@ class HomePage extends StatelessWidget {
                         children: [
                           _buildServiceItem(
                             "Delivery",
-                            Icons.delivery_dining,
+                            "assets/icons/scooter-delivery.svg",
                             brandRed,
+                            55,
                           ),
                           _buildServiceItem(
                             "Dine In",
-                            Icons.restaurant,
+                            "assets/icons/dine-in.svg",
                             brandRed,
+                            55,
                           ),
                           _buildServiceItem(
                             "Take Away",
-                            Icons.shopping_bag,
+                            "assets/icons/shopping-bag.svg",
                             brandRed,
+                            55,
                           ),
                           _buildServiceItem(
                             "Drive Thru",
-                            Icons.drive_eta,
+                            "assets/icons/drive-thru.svg",
                             brandRed,
+                            55,
                           ),
                           _buildServiceItem(
                             "Large Order",
-                            Icons.local_shipping,
+                            "assets/icons/truck-delivery.svg",
                             brandRed,
+                            55,
                           ),
                         ],
                       ),
 
                       const SizedBox(height: 20),
-                      const Divider(),
                       const SizedBox(height: 20),
-
                       // News & Promo
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              children: [
-                                const Text(
-                                  "News",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(height: 10),
-                                Container(
-                                  height: 150,
-                                  color: Colors.grey[300],
-                                  child: const Center(
-                                    child: Text("News Image"),
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  const Text(
+                                    "News",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                const Text(
-                                  "Promo",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(height: 10),
-                                Container(
-                                  height: 150,
-                                  color: Colors.grey[300],
-                                  child: const Center(
-                                    child: Text("Promo Image"),
+                                  const SizedBox(height: 10),
+                                  Container(
+                                    height: 150,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[400],
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: const Center(
+                                      child: Text("News Image"),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  const Text(
+                                    "Promo",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Container(
+                                    height: 150,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[400],
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: const Center(
+                                      child: Text("Promo Image"),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
 
                       const SizedBox(height: 100), // Space for bottom nav
@@ -253,38 +314,10 @@ class HomePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const SizedBox(width: 60), // Space for Big Home Button
-                        IconButton(
-                          icon: const Icon(
-                            Icons.grid_view,
-                            color: Colors.white,
-                            size: 28,
-                          ),
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.qr_code_scanner,
-                            color: Colors.white,
-                            size: 28,
-                          ),
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.favorite_border,
-                            color: Colors.white,
-                            size: 28,
-                          ),
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.person_outline,
-                            color: Colors.white,
-                            size: 28,
-                          ),
-                          onPressed: () {},
-                        ),
+                        _buildNavIcon("assets/icons/bento-box.svg"),
+                        _buildNavIcon("assets/icons/scan-qr.svg"),
+                        _buildNavIcon("assets/icons/favourites.svg"),
+                        _buildNavIcon("assets/icons/user.svg"),
                       ],
                     ),
                   ),
@@ -299,17 +332,25 @@ class HomePage extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: Container(
-                        height: 60,
-                        width: 60,
+                        height: 65,
+                        width: 65,
                         decoration: BoxDecoration(
                           color: brandGreen,
                           shape: BoxShape.circle,
                           border: Border.all(color: brandGreen, width: 2),
                         ),
-                        child: const Icon(
-                          Icons.home_outlined,
-                          color: Colors.white,
-                          size: 35,
+                        child: InkWell(
+                          customBorder: const CircleBorder(),
+                          onTap: () {},
+                          splashColor: Colors.black12,
+                          hoverColor: Colors.black26, // Darker hover
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: _buildSvgIcon(
+                              "assets/icons/home.svg",
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -323,23 +364,25 @@ class HomePage extends StatelessWidget {
           Positioned(
             bottom: 85, // Adjust to float above the green bar
             right: 20,
-            child: Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                color: brandRed,
+            child: Material(
+              color: brandRed,
+              borderRadius: BorderRadius.circular(8),
+              elevation: 4,
+              child: InkWell(
+                onTap: () {},
                 borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withAlpha(50),
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
+                hoverColor: Colors.black26, // Darker hover
+                child: Container(
+                  height: 55,
+                  width: 55,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(12),
+                  child: _buildSvgIcon(
+                    "assets/icons/shopping-cart.svg",
+                    size: 40,
+                    color: Colors.white,
                   ),
-                ],
-              ),
-              child: const Icon(
-                Icons.shopping_basket_outlined,
-                color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -349,33 +392,51 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildChip(String label, Color color) {
-    return Container(
-      width: 100,
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      decoration: BoxDecoration(
-        color: color,
+    return Material(
+      color: color,
+      borderRadius: BorderRadius.circular(20),
+      child: InkWell(
+        onTap: () {},
         borderRadius: BorderRadius.circular(20),
-      ),
-      child: Center(
-        child: Text(
-          label,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+        hoverColor: Colors.black26, // Darker on hover
+        child: Container(
+          width: 100,
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Center(
+            child: Text(
+              label,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildServiceItem(String label, IconData icon, Color color) {
+  Widget _buildServiceItem(
+    String label,
+    String assetPath,
+    Color color,
+    double size,
+  ) {
     return Column(
       children: [
-        Container(
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
-            color: color,
+        Material(
+          color: color,
+          borderRadius: BorderRadius.circular(10),
+          child: InkWell(
+            onTap: () {},
             borderRadius: BorderRadius.circular(10),
+            hoverColor: Colors.black26, // Darker on hover
+            child: SizedBox(
+              height: size,
+              width: size,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: _buildSvgIcon(assetPath, color: Colors.white),
+              ),
+            ),
           ),
-          child: Icon(icon, color: Colors.white, size: 24),
         ),
         const SizedBox(height: 5),
         SizedBox(
@@ -388,6 +449,37 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildNavIcon(String assetPath) {
+    return IconButton(
+      icon: _buildSvgIcon(assetPath, color: Colors.white, size: 37),
+      onPressed: () {},
+      style: ButtonStyle(
+        overlayColor: WidgetStateProperty.resolveWith<Color?>((
+          Set<WidgetState> states,
+        ) {
+          if (states.contains(WidgetState.hovered)) {
+            return Colors.black26; // Darker hover
+          }
+          if (states.contains(WidgetState.pressed)) {
+            return Colors.black.withAlpha(100);
+          }
+          return null;
+        }),
+      ),
+    );
+  }
+
+  Widget _buildSvgIcon(String assetPath, {Color? color, double? size}) {
+    return SvgPicture.asset(
+      assetPath,
+      width: size,
+      height: size,
+      colorFilter: color != null
+          ? ColorFilter.mode(color, BlendMode.srcIn)
+          : null,
     );
   }
 }
