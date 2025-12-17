@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AllMenuPage extends StatelessWidget {
   const AllMenuPage({super.key});
@@ -7,20 +8,33 @@ class AllMenuPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      
+
       // --- FAB (Tas Belanja Merah) ---
       // Posisinya tetap di kanan atas navbar
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 80.0), // Naikkan sedikit biar gak numpuk navbar
+        padding: const EdgeInsets.only(
+          bottom: 85.0,
+        ), // Match Home Page position
         child: SizedBox(
-          width: 65,
-          height: 65,
+          width: 55,
+          height: 55,
           child: FloatingActionButton(
             onPressed: () {},
             backgroundColor: const Color(0xFFED1C24),
-            shape: const CircleBorder(),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
             elevation: 4,
-            child: const Icon(Icons.shopping_bag_outlined, color: Colors.white, size: 30),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: SvgPicture.asset(
+                "assets/icons/shopping-cart.svg",
+                colorFilter: const ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.srcIn,
+                ),
+              ),
+            ),
           ),
         ),
       ),
@@ -74,14 +88,24 @@ class AllMenuPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       _buildCategoryTab('Hoka Bento', isActive: true),
-                      const VerticalDivider(color: Colors.black, thickness: 1, indent: 5, endIndent: 5),
+                      const VerticalDivider(
+                        color: Colors.black,
+                        thickness: 1,
+                        indent: 5,
+                        endIndent: 5,
+                      ),
                       _buildCategoryTab('Dessert', isActive: false),
-                      const VerticalDivider(color: Colors.black, thickness: 1, indent: 5, endIndent: 5),
+                      const VerticalDivider(
+                        color: Colors.black,
+                        thickness: 1,
+                        indent: 5,
+                        endIndent: 5,
+                      ),
                       _buildCategoryTab('Drink', isActive: false),
                     ],
                   ),
                 ),
-                const Divider(thickness: 1, height: 1), 
+                const Divider(thickness: 1, height: 1),
               ],
             ),
           ),
@@ -102,11 +126,11 @@ class AllMenuPage extends StatelessWidget {
   }
 
   // ==================== WIDGET NAVBAR BARU ====================
-  
+
   Widget _buildCustomNavBar(BuildContext context) {
     // Kita pakai SizedBox tinggi 100 agar ada ruang buat tombolnya 'nimbul' ke atas
     return SizedBox(
-      height: 100, 
+      height: 100,
       child: Stack(
         clipBehavior: Clip.none, // Izinkan widget keluar dari batas
         alignment: Alignment.bottomCenter,
@@ -131,8 +155,15 @@ class AllMenuPage extends StatelessWidget {
               children: [
                 // 1. Home
                 IconButton(
-                  onPressed: (){}, 
-                  icon: const Icon(Icons.home_outlined, color: Colors.white, size: 32)
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: SvgPicture.asset(
+                    "assets/icons/home.svg",
+                    color: Colors.white,
+                    width: 32,
+                    height: 32,
+                  ),
                 ),
 
                 // 2. MENU (TOMBOL TIMBUL)
@@ -143,7 +174,9 @@ class AllMenuPage extends StatelessWidget {
                     width: 75,
                     height: 75,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF7CB342), // Warna Hijau sama dengan navbar
+                      color: const Color(
+                        0xFF7CB342,
+                      ), // Warna Hijau sama dengan navbar
                       shape: BoxShape.circle, // Bentuk bulat
                       border: Border.all(
                         color: Colors.white, // Pinggiran Putih Tebal
@@ -154,29 +187,50 @@ class AllMenuPage extends StatelessWidget {
                           color: Colors.black.withOpacity(0.1),
                           blurRadius: 10,
                           offset: const Offset(0, 5),
-                        )
-                      ]
+                        ),
+                      ],
                     ),
-                    child: const Icon(Icons.grid_view, color: Colors.white, size: 30),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: SvgPicture.asset(
+                        "assets/icons/bento-box.svg",
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
 
                 // 3. QR Code
                 IconButton(
-                  onPressed: (){}, 
-                  icon: const Icon(Icons.qr_code_scanner, color: Colors.white, size: 32)
+                  onPressed: () {},
+                  icon: SvgPicture.asset(
+                    "assets/icons/scan-qr.svg",
+                    color: Colors.white,
+                    width: 32,
+                    height: 32,
+                  ),
                 ),
 
                 // 4. Favorite
                 IconButton(
-                  onPressed: (){}, 
-                  icon: const Icon(Icons.favorite_border, color: Colors.white, size: 32)
+                  onPressed: () {},
+                  icon: SvgPicture.asset(
+                    "assets/icons/favourites.svg",
+                    color: Colors.white,
+                    width: 32,
+                    height: 32,
+                  ),
                 ),
 
                 // 5. Profile
                 IconButton(
-                  onPressed: (){}, 
-                  icon: const Icon(Icons.person_outline, color: Colors.white, size: 32)
+                  onPressed: () {},
+                  icon: SvgPicture.asset(
+                    "assets/icons/user.svg",
+                    color: Colors.white,
+                    width: 32,
+                    height: 32,
+                  ),
                 ),
               ],
             ),
@@ -228,20 +282,28 @@ class AllMenuPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   image: const DecorationImage(
-                    image: NetworkImage('https://placehold.co/150x150/png'), 
+                    image: NetworkImage('https://placehold.co/150x150/png'),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
               Positioned(
-                bottom: 0, left: 0,
+                bottom: 0,
+                left: 0,
                 child: Container(
                   padding: const EdgeInsets.all(3),
                   decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(8), bottomLeft: Radius.circular(12)),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(8),
+                      bottomLeft: Radius.circular(12),
+                    ),
                   ),
-                  child: const Icon(Icons.rice_bowl, size: 14, color: Colors.grey),
+                  child: const Icon(
+                    Icons.rice_bowl,
+                    size: 14,
+                    color: Colors.grey,
+                  ),
                 ),
               ),
             ],
@@ -268,21 +330,28 @@ class AllMenuPage extends StatelessWidget {
           Column(
             children: [
               const SizedBox(height: 10),
-              const Icon(Icons.favorite, color: Color(0xFFED1C24)), 
+              const Icon(Icons.favorite, color: Color(0xFFED1C24)),
               const SizedBox(height: 20),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF7CB342), 
+                  color: const Color(0xFF7CB342),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: const Text(
                   '+ Add',
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                  ),
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

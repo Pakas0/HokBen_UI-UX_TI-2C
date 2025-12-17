@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'all_menu.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -55,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          // Logo Placeholder
+                          // Logo
                           Container(
                             height: 50,
                             width: 50,
@@ -63,13 +64,12 @@ class _HomePageState extends State<HomePage> {
                               color: Colors.amber,
                               shape: BoxShape.circle,
                             ),
-                            child: const Center(
-                              child: Text(
-                                "HokBen",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Image.asset(
+                                  "assets/icons/hokben-seeklogo.png",
+                                  fit: BoxFit.contain,
                                 ),
                               ),
                             ),
@@ -314,7 +314,17 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const SizedBox(width: 60), // Space for Big Home Button
-                        _buildNavIcon("assets/icons/bento-box.svg"),
+                        _buildNavIcon(
+                          "assets/icons/bento-box.svg",
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const AllMenuPage(),
+                              ),
+                            );
+                          },
+                        ),
                         _buildNavIcon("assets/icons/scan-qr.svg"),
                         _buildNavIcon("assets/icons/favourites.svg"),
                         _buildNavIcon("assets/icons/user.svg"),
@@ -452,10 +462,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildNavIcon(String assetPath) {
+  Widget _buildNavIcon(String assetPath, {VoidCallback? onPressed}) {
     return IconButton(
       icon: _buildSvgIcon(assetPath, color: Colors.white, size: 37),
-      onPressed: () {},
+      onPressed: onPressed ?? () {},
       style: ButtonStyle(
         overlayColor: WidgetStateProperty.resolveWith<Color?>((
           Set<WidgetState> states,
