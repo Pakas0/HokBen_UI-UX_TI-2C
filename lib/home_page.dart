@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'all_menu.dart';
+import 'order_status.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -379,7 +380,14 @@ class _HomePageState extends State<HomePage> {
               borderRadius: BorderRadius.circular(8),
               elevation: 4,
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const OrderStatusPage(),
+                    ),
+                  );
+                },
                 borderRadius: BorderRadius.circular(8),
                 hoverColor: Colors.black26, // Darker hover
                 child: Container(

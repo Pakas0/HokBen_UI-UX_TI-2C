@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'order_status.dart';
 
 class AllMenuPage extends StatelessWidget {
   const AllMenuPage({super.key});
@@ -19,7 +20,14 @@ class AllMenuPage extends StatelessWidget {
           width: 55,
           height: 55,
           child: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const OrderStatusPage(),
+                ),
+              );
+            },
             backgroundColor: const Color(0xFFED1C24),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
