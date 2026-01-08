@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'all_menu.dart';
 import 'order_status.dart';
+import 'qr.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -315,6 +316,7 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const SizedBox(width: 60), // Space for Big Home Button
+
                         _buildNavIcon(
                           "assets/icons/bento-box.svg",
                           onPressed: () {
@@ -326,7 +328,20 @@ class _HomePageState extends State<HomePage> {
                             );
                           },
                         ),
-                        _buildNavIcon("assets/icons/scan-qr.svg"),
+
+                        // 2. TOMBOL QR SCAN -> KE HALAMAN QR (BARU DITAMBAHKAN)
+                        _buildNavIcon(
+                          "assets/icons/scan-qr.svg",
+                          onPressed: () {
+                            // <--- BAGIAN INI MENYAMBUNGKAN KE QR PAGE
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const QrPage()),
+                            );
+                          },
+                        ),
+
+                       
                         _buildNavIcon("assets/icons/favourites.svg"),
                         _buildNavIcon("assets/icons/user.svg"),
                       ],
